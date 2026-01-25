@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Private Page</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
   body {
@@ -35,6 +35,11 @@
     font-size: 1.1rem;
   }
 
+  .bold {
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+
   input {
     padding: 10px;
     width: 220px;
@@ -47,7 +52,7 @@
   }
 
   button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 1rem;
     border-radius: 6px;
     border: none;
@@ -60,16 +65,27 @@
   button:hover {
     background: #ffb84d;
   }
+
+  /* WhatsApp animation */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  .whatsapp-btn {
+    animation: pulse 1.2s infinite;
+  }
 </style>
 </head>
 <body>
 
 <!-- 1. Welcome -->
 <div id="welcome" class="screen show">
-  <p>Welcome</p>
+  <p class="bold">WELCOME</p>
 </div>
 
-<!-- 2. First name -->
+<!-- 2. First Name -->
 <div id="nameScreen" class="screen">
   <p>Please enter your first name:</p>
   <input id="firstName" type="text">
@@ -81,27 +97,29 @@
   <p>Hello Megan</p>
 </div>
 
-<!-- Unknown user -->
+<!-- Unknown -->
 <div id="unknownScreen" class="screen">
   <p>Sorry, I don’t know you 😑</p>
 </div>
 
-<!-- 4. Smart message -->
+<!-- 4. Smart -->
 <div id="smartScreen" class="screen">
   <p>let’s see if you’re really smart 😌</p>
 </div>
 
 <!-- 5. Quiz -->
 <div id="quizScreen" class="screen">
-  <p>You can keep me, you can’t see me.</p>
+  <p>What can you keep, but you cannot see?</p>
   <input id="answer" type="text">
   <button onclick="checkAnswer()">Submit</button>
 </div>
 
 <!-- 6. WhatsApp -->
 <div id="whatsappScreen" class="screen">
-  <p>Access granted ✅</p>
-  <button onclick="goWhatsApp()">Contact me on WhatsApp</button>
+  <p>Correct ✅</p>
+  <button class="whatsapp-btn" onclick="goWhatsApp()">
+    Contact me on WhatsApp
+  </button>
 </div>
 
 <script>
@@ -139,7 +157,7 @@ function checkName() {
 // Step 5
 function checkAnswer() {
   const ans = answer.value.trim().toLowerCase();
-  if (ans === "secret") {
+  if (ans === "secret" || ans === "a secret") {
     show("whatsappScreen");
   }
 }
