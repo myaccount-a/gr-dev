@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Secret Quiz</title>
-  
-  <!-- Google Font Poppins -->
+
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    /* BODY & BACKGROUND */
     body {
       margin: 0;
       height: 100vh;
@@ -21,23 +22,48 @@
       text-align: center;
       overflow: hidden;
       flex-direction: column;
+      position: relative;
     }
 
+    /* Animated mist background */
+    body::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0,150,255,0.05) 0%, transparent 70%);
+      animation: floatMist 20s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes floatMist {
+      0% { transform: translate(0,0) rotate(0deg); }
+      50% { transform: translate(20px, 20px) rotate(45deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+
+    /* Fade animation */
     .fade {
       opacity: 0;
-      transition: opacity 1s ease-in-out;
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      position: relative;
+      z-index: 1;
     }
 
     .fade.show {
       opacity: 1;
+      transform: translateY(0);
     }
 
+    /* Welcome */
     #welcome {
       font-size: 3em;
       font-weight: 700;
     }
 
-    /* First name form */
+    /* First Name Form */
     #nameForm p {
       font-size: 1.8em;
       font-weight: 600;
@@ -58,8 +84,14 @@
       border: 1px solid #555;
       outline: none;
       width: 250px;
-      background-color: #111;
+      background-color: rgba(17,17,17,0.9);
       color: #fff;
+      box-shadow: 0 0 15px rgba(0,255,255,0.1);
+      transition: all 0.3s ease;
+    }
+
+    #nameForm input:focus {
+      box-shadow: 0 0 20px #0ff;
     }
 
     #nameForm button {
@@ -80,17 +112,25 @@
       transform: scale(1.05);
     }
 
+    /* Hello message */
     #helloMsg {
       font-size: 2em;
       font-weight: 600;
       margin-bottom: 20px;
     }
 
-    /* Kesyon style pi piti */
+    /* Quiz */
     #quiz p {
       font-size: 1.5em;
       margin-bottom: 20px;
       font-weight: 500;
+    }
+
+    #quiz .input-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
     }
 
     #quiz input {
@@ -100,14 +140,19 @@
       border: 1px solid #555;
       outline: none;
       width: 220px;
-      background-color: #111;
+      background-color: rgba(17,17,17,0.9);
       color: #fff;
+      box-shadow: 0 0 15px rgba(0,255,255,0.05);
+      transition: all 0.3s ease;
+    }
+
+    #quiz input:focus {
+      box-shadow: 0 0 20px #0ff;
     }
 
     #quiz button {
       padding: 10px 20px;
       font-size: 1em;
-      margin-left: 10px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
@@ -130,12 +175,13 @@
       font-weight: 600;
     }
 
-    /* New page for WhatsApp */
+    /* WhatsApp page */
     #whatsappPage {
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      z-index: 1;
     }
 
     #whatsappPage p {
@@ -160,6 +206,7 @@
       box-shadow: 0 0 25px #0f0;
       transform: scale(1.05);
     }
+
   </style>
 </head>
 <body>
@@ -203,38 +250,31 @@
     const result = document.getElementById('result');
     const whatsappPage = document.getElementById('whatsappPage');
 
-    // 1️⃣ Welcome message 2 segond
+    // 1️⃣ Welcome 2 segond
     welcome.classList.add('show');
     setTimeout(() => {
       welcome.classList.remove('show');
-      setTimeout(() => {
-        nameForm.classList.add('show');
-      }, 500);
+      setTimeout(() => { nameForm.classList.add('show'); }, 500);
     }, 2000);
 
-    // 2️⃣ Submit first name
+    // 2️⃣ Submit name
     function submitName() {
       const firstName = document.getElementById('firstName').value.trim();
-      if(firstName === "") return;
-
+      if(!firstName) return;
       nameForm.classList.remove('show');
       helloMsg.textContent = `Hello ${firstName}! Let’s see if you’re smart`;
       helloMsg.classList.add('show');
 
-      // 3️⃣ Show hello message 3 segond, apre sa quiz
       setTimeout(() => {
         helloMsg.classList.remove('show');
-        setTimeout(() => {
-          quiz.classList.add('show');
-        }, 500);
+        setTimeout(() => { quiz.classList.add('show'); }, 500);
       }, 3000);
     }
 
-    // 4️⃣ Check quiz answer
+    // 3️⃣ Check answer
     function checkAnswer() {
       const answer = document.getElementById('answer').value.trim().toLowerCase();
       if(answer === "secret") {
-        // hide quiz, show WhatsApp page
         quiz.classList.remove('show');
         whatsappPage.style.display = "flex";
         setTimeout(() => whatsappPage.classList.add('show'), 100);
@@ -244,12 +284,13 @@
       }
     }
 
-    // 5️⃣ WhatsApp button
+    // 4️⃣ WhatsApp button
     function goToWhatsApp() {
-      const phone = "5096595789"; // Mete WhatsApp number ou san espas
+      const phone = "5096595789";
       const url = `https://wa.me/${phone}`;
       window.open(url, "_blank");
     }
+
   </script>
 
 </body>
