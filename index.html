@@ -37,10 +37,18 @@
       font-weight: 700;
     }
 
+    /* First name form */
     #nameForm p {
       font-size: 1.8em;
       font-weight: 600;
       margin-bottom: 20px;
+    }
+
+    #nameForm .input-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
     }
 
     #nameForm input {
@@ -55,9 +63,8 @@
     }
 
     #nameForm button {
-      padding: 12px 25px;
+      padding: 12px 20px;
       font-size: 1.1em;
-      margin-left: 12px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
@@ -79,27 +86,28 @@
       margin-bottom: 20px;
     }
 
+    /* Kesyon style pi piti */
     #quiz p {
-      font-size: 2em;
-      margin-bottom: 25px;
-      font-weight: 600;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      font-weight: 500;
     }
 
     #quiz input {
-      padding: 12px 15px;
-      font-size: 1.1em;
+      padding: 10px 12px;
+      font-size: 1em;
       border-radius: 8px;
       border: 1px solid #555;
       outline: none;
-      width: 250px;
+      width: 220px;
       background-color: #111;
       color: #fff;
     }
 
     #quiz button {
-      padding: 12px 30px;
-      font-size: 1.1em;
-      margin-left: 12px;
+      padding: 10px 20px;
+      font-size: 1em;
+      margin-left: 10px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
@@ -116,34 +124,75 @@
     }
 
     #result {
-      margin-top: 25px;
-      font-size: 1.6em;
+      margin-top: 20px;
+      font-size: 1.4em;
       color: #0f0;
       font-weight: 600;
+    }
+
+    /* New page for WhatsApp */
+    #whatsappPage {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #whatsappPage p {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+
+    #whatsappPage button {
+      padding: 12px 25px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background-color: #25D366; /* WhatsApp green */
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 0 12px #0f0;
+      transition: all 0.3s ease;
+    }
+
+    #whatsappPage button:hover {
+      box-shadow: 0 0 25px #0f0;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
 
-  <!-- Mesaj welcome -->
+  <!-- Welcome -->
   <div id="welcome" class="fade">Welcome!</div>
 
-  <!-- Form pou first name -->
+  <!-- First Name Form -->
   <div id="nameForm" class="fade">
     <p>Please enter your first name:</p>
-    <input type="text" id="firstName" placeholder="Your first name">
-    <button onclick="submitName()">Submit</button>
+    <div class="input-group">
+      <input type="text" id="firstName" placeholder="Your first name">
+      <button onclick="submitName()">Submit</button>
+    </div>
   </div>
 
   <!-- Hello message -->
   <div id="helloMsg" class="fade"></div>
 
-  <!-- Kesyon ak repons -->
+  <!-- Quiz -->
   <div id="quiz" class="fade">
     <p>“You can hold me, but you can't see me.”<br>👉 What am I?</p>
-    <input type="text" id="answer" placeholder="Your answer here">
-    <button onclick="checkAnswer()">Submit</button>
+    <div class="input-group">
+      <input type="text" id="answer" placeholder="Your answer here">
+      <button onclick="checkAnswer()">Submit</button>
+    </div>
     <div id="result"></div>
+  </div>
+
+  <!-- WhatsApp page -->
+  <div id="whatsappPage" class="fade">
+    <p>✅ Correct!</p>
+    <button onclick="goToWhatsApp()">Contact me on WhatsApp</button>
   </div>
 
   <script>
@@ -152,8 +201,9 @@
     const helloMsg = document.getElementById('helloMsg');
     const quiz = document.getElementById('quiz');
     const result = document.getElementById('result');
+    const whatsappPage = document.getElementById('whatsappPage');
 
-    // 1️⃣ Welcome message pandan 2 segond
+    // 1️⃣ Welcome message 2 segond
     welcome.classList.add('show');
     setTimeout(() => {
       welcome.classList.remove('show');
@@ -162,7 +212,7 @@
       }, 500);
     }, 2000);
 
-    // 2️⃣ Fonksyon pou submit first name
+    // 2️⃣ Submit first name
     function submitName() {
       const firstName = document.getElementById('firstName').value.trim();
       if(firstName === "") return;
@@ -171,7 +221,7 @@
       helloMsg.textContent = `Hello ${firstName}! Let’s see if you’re smart`;
       helloMsg.classList.add('show');
 
-      // 3️⃣ Montre hello message pandan 3 segond, apre sa kesyon parèt
+      // 3️⃣ Show hello message 3 segond, apre sa quiz
       setTimeout(() => {
         helloMsg.classList.remove('show');
         setTimeout(() => {
@@ -180,16 +230,25 @@
       }, 3000);
     }
 
-    // 4️⃣ Verifye repons
+    // 4️⃣ Check quiz answer
     function checkAnswer() {
       const answer = document.getElementById('answer').value.trim().toLowerCase();
       if(answer === "secret") {
-        result.innerHTML = "✅ Correct! My number is: 509-659-5789";
-        result.classList.add('show');
+        // hide quiz, show WhatsApp page
+        quiz.classList.remove('show');
+        whatsappPage.style.display = "flex";
+        setTimeout(() => whatsappPage.classList.add('show'), 100);
       } else {
         result.innerHTML = "❌ Wrong answer, try again!";
         result.classList.add('show');
       }
+    }
+
+    // 5️⃣ WhatsApp button
+    function goToWhatsApp() {
+      const phone = "5096595789"; // Mete WhatsApp number ou san espas
+      const url = `https://wa.me/${phone}`;
+      window.open(url, "_blank");
     }
   </script>
 
