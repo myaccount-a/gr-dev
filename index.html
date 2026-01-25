@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Secret Quiz</title>
   
-  <!-- Google Font Poppins pou style profesional -->
+  <!-- Google Font Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -23,12 +23,12 @@
       flex-direction: column;
     }
 
-    #welcome, #quiz, #result {
+    .fade {
       opacity: 0;
       transition: opacity 1s ease-in-out;
     }
 
-    #welcome.show, #quiz.show, #result.show {
+    .fade.show {
       opacity: 1;
     }
 
@@ -37,8 +37,50 @@
       font-weight: 700;
     }
 
+    #nameForm p {
+      font-size: 1.8em;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    #nameForm input {
+      padding: 12px 15px;
+      font-size: 1.1em;
+      border-radius: 8px;
+      border: 1px solid #555;
+      outline: none;
+      width: 250px;
+      background-color: #111;
+      color: #fff;
+    }
+
+    #nameForm button {
+      padding: 12px 25px;
+      font-size: 1.1em;
+      margin-left: 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background-color: #fff;
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 0 12px #0ff;
+      transition: all 0.3s ease;
+    }
+
+    #nameForm button:hover {
+      box-shadow: 0 0 25px #0ff;
+      transform: scale(1.05);
+    }
+
+    #helloMsg {
+      font-size: 2em;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
     #quiz p {
-      font-size: 2.2em;
+      font-size: 2em;
       margin-bottom: 25px;
       font-weight: 600;
     }
@@ -49,7 +91,7 @@
       border-radius: 8px;
       border: 1px solid #555;
       outline: none;
-      width: 300px;
+      width: 250px;
       background-color: #111;
       color: #fff;
     }
@@ -84,10 +126,20 @@
 <body>
 
   <!-- Mesaj welcome -->
-  <div id="welcome">Welcome!</div>
+  <div id="welcome" class="fade">Welcome!</div>
+
+  <!-- Form pou first name -->
+  <div id="nameForm" class="fade">
+    <p>Please enter your first name:</p>
+    <input type="text" id="firstName" placeholder="Your first name">
+    <button onclick="submitName()">Submit</button>
+  </div>
+
+  <!-- Hello message -->
+  <div id="helloMsg" class="fade"></div>
 
   <!-- Kesyon ak repons -->
-  <div id="quiz">
+  <div id="quiz" class="fade">
     <p>“You can hold me, but you can't see me.”<br>👉 What am I?</p>
     <input type="text" id="answer" placeholder="Your answer here">
     <button onclick="checkAnswer()">Submit</button>
@@ -96,19 +148,39 @@
 
   <script>
     const welcome = document.getElementById('welcome');
+    const nameForm = document.getElementById('nameForm');
+    const helloMsg = document.getElementById('helloMsg');
     const quiz = document.getElementById('quiz');
     const result = document.getElementById('result');
 
-    // Montre welcome ak fade-in
+    // 1️⃣ Welcome message pandan 2 segond
     welcome.classList.add('show');
-
     setTimeout(() => {
       welcome.classList.remove('show');
       setTimeout(() => {
-        quiz.classList.add('show');
+        nameForm.classList.add('show');
       }, 500);
     }, 2000);
 
+    // 2️⃣ Fonksyon pou submit first name
+    function submitName() {
+      const firstName = document.getElementById('firstName').value.trim();
+      if(firstName === "") return;
+
+      nameForm.classList.remove('show');
+      helloMsg.textContent = `Hello ${firstName}! Let’s see if you’re smart`;
+      helloMsg.classList.add('show');
+
+      // 3️⃣ Montre hello message pandan 3 segond, apre sa kesyon parèt
+      setTimeout(() => {
+        helloMsg.classList.remove('show');
+        setTimeout(() => {
+          quiz.classList.add('show');
+        }, 500);
+      }, 3000);
+    }
+
+    // 4️⃣ Verifye repons
     function checkAnswer() {
       const answer = document.getElementById('answer').value.trim().toLowerCase();
       if(answer === "secret") {
