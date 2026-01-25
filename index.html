@@ -1,10 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Secret Quiz</title>
+  
+  <!-- Google Font Poppins pou style profesional -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
@@ -14,9 +17,10 @@
       align-items: center;
       background-color: #000;
       color: #fff;
-      font-family: 'Arial', sans-serif;
+      font-family: 'Poppins', sans-serif;
       text-align: center;
       overflow: hidden;
+      flex-direction: column;
     }
 
     #welcome, #quiz, #result {
@@ -28,46 +32,52 @@
       opacity: 1;
     }
 
+    #welcome {
+      font-size: 3em;
+      font-weight: 700;
+    }
+
     #quiz p {
-      font-size: 2em;
-      margin-bottom: 20px;
+      font-size: 2.2em;
+      margin-bottom: 25px;
+      font-weight: 600;
     }
 
     #quiz input {
-      padding: 12px;
-      font-size: 1em;
-      border-radius: 5px;
-      border: none;
+      padding: 12px 15px;
+      font-size: 1.1em;
+      border-radius: 8px;
+      border: 1px solid #555;
       outline: none;
-      width: 250px;
+      width: 300px;
       background-color: #111;
       color: #fff;
-      border: 1px solid #555;
     }
 
     #quiz button {
-      padding: 12px 25px;
-      font-size: 1em;
-      margin-left: 10px;
-      border-radius: 5px;
+      padding: 12px 30px;
+      font-size: 1.1em;
+      margin-left: 12px;
+      border-radius: 8px;
       border: none;
       cursor: pointer;
       background-color: #fff;
       color: #000;
-      font-weight: bold;
-      box-shadow: 0 0 10px #0ff;
+      font-weight: 700;
+      box-shadow: 0 0 12px #0ff;
       transition: all 0.3s ease;
     }
 
     #quiz button:hover {
-      box-shadow: 0 0 20px #0ff;
+      box-shadow: 0 0 25px #0ff;
       transform: scale(1.05);
     }
 
     #result {
-      margin-top: 20px;
-      font-size: 1.5em;
+      margin-top: 25px;
+      font-size: 1.6em;
       color: #0f0;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -93,16 +103,12 @@
     welcome.classList.add('show');
 
     setTimeout(() => {
-      // Fè welcome disparèt ak fade-out
       welcome.classList.remove('show');
-
       setTimeout(() => {
-        // Montre quiz ak fade-in
         quiz.classList.add('show');
-      }, 500); // 500ms pou fade-out fini
-    }, 2000); // 2 segond welcome
+      }, 500);
+    }, 2000);
 
-    // Verifye repons
     function checkAnswer() {
       const answer = document.getElementById('answer').value.trim().toLowerCase();
       if(answer === "secret") {
