@@ -15,7 +15,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #000; /* background nwa */
+      background-color: #000;
       color: #fff;
       font-family: 'Poppins', sans-serif;
       text-align: center;
@@ -24,11 +24,13 @@
       position: relative;
     }
 
+    /* Fade animation */
     .fade {
       opacity: 0;
-      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
       position: relative;
       z-index: 1;
+      transform: translateY(10px);
     }
 
     .fade.show {
@@ -36,152 +38,67 @@
       transform: translateY(0);
     }
 
-    /* Welcome */
-    #welcome {
-      font-size: 3em;
-      font-weight: 700;
+    /* Shake animation for wrong answer */
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
     }
+
+    .shake {
+      animation: shake 0.3s;
+    }
+
+    /* Welcome */
+    #welcome { font-size: 2.5em; font-weight: 700; }
 
     /* First Name Form */
-    #nameForm p {
-      font-size: 1.8em;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-
+    #nameForm p { font-size: 1.5em; font-weight: 600; margin-bottom: 15px; }
     #nameForm .input-group {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
+      display: flex; justify-content: center; align-items: center; gap: 10px;
     }
-
     #nameForm input {
-      padding: 12px 15px;
-      font-size: 1.1em;
-      border-radius: 8px;
-      border: 1px solid #444;
-      outline: none;
-      width: 250px;
-      background-color: #111;
-      color: #fff;
-      transition: all 0.3s ease;
+      padding: 10px 12px; font-size: 1em; border-radius: 8px; border: 1px solid #444;
+      outline: none; width: 220px; background-color: #111; color: #fff; transition: all 0.3s ease;
     }
-
-    #nameForm input:focus {
-      border-color: #FF9900;
-      box-shadow: 0 0 10px #FF9900;
-    }
-
+    #nameForm input:focus { border-color: #FF9900; box-shadow: 0 0 10px #FF9900; }
     #nameForm button {
-      padding: 12px 20px;
-      font-size: 1.1em;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      background-color: #FF9900; /* Pornhub orange */
-      color: #000;
-      font-weight: 700;
+      padding: 10px 18px; font-size: 1em; border-radius: 8px; border: none;
+      cursor: pointer; background-color: #FF9900; color: #000; font-weight: 700;
       transition: all 0.3s ease;
     }
-
-    #nameForm button:hover {
-      background-color: #ffb84d;
-      transform: scale(1.05);
-    }
+    #nameForm button:hover { background-color: #ffb84d; transform: scale(1.05); }
 
     /* Hello Message */
-    #helloMsg {
-      font-size: 2em;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
+    #helloMsg { font-size: 1.6em; font-weight: 600; margin-bottom: 15px; }
 
     /* Quiz */
-    #quiz p {
-      font-size: 1.5em;
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-
-    #quiz .input-group {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-
+    #quiz p { font-size: 1.3em; margin-bottom: 15px; font-weight: 500; }
+    #quiz .input-group { display: flex; justify-content: center; align-items: center; gap: 10px; }
     #quiz input {
-      padding: 10px 12px;
-      font-size: 1em;
-      border-radius: 8px;
-      border: 1px solid #444;
-      outline: none;
-      width: 220px;
-      background-color: #111;
-      color: #fff;
-      transition: all 0.3s ease;
+      padding: 8px 10px; font-size: 0.95em; border-radius: 8px; border: 1px solid #444;
+      outline: none; width: 200px; background-color: #111; color: #fff; transition: all 0.3s ease;
     }
-
-    #quiz input:focus {
-      border-color: #FF9900;
-      box-shadow: 0 0 10px #FF9900;
-    }
-
+    #quiz input:focus { border-color: #FF9900; box-shadow: 0 0 10px #FF9900; }
     #quiz button {
-      padding: 10px 20px;
-      font-size: 1em;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      background-color: #FF9900; /* orange */
-      color: #000;
-      font-weight: 700;
-      transition: all 0.3s ease;
+      padding: 8px 18px; font-size: 0.95em; border-radius: 8px; border: none;
+      cursor: pointer; background-color: #FF9900; color: #000; font-weight: 700; transition: all 0.3s ease;
     }
+    #quiz button:hover { background-color: #ffb84d; transform: scale(1.05); }
 
-    #quiz button:hover {
-      background-color: #ffb84d;
-      transform: scale(1.05);
-    }
-
-    #result {
-      margin-top: 20px;
-      font-size: 1.4em;
-      color: #0f0;
-      font-weight: 600;
-    }
+    #result { margin-top: 15px; font-size: 1.2em; font-weight: 600; }
 
     /* WhatsApp page */
-    #whatsappPage {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #whatsappPage p {
-      font-size: 1.8em;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
+    #whatsappPage { display: none; flex-direction: column; justify-content: center; align-items: center; }
+    #whatsappPage p { font-size: 1.5em; margin-bottom: 15px; font-weight: 600; }
     #whatsappPage button {
-      padding: 12px 25px;
-      font-size: 1.2em;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      background-color: #25D366; /* WhatsApp green */
-      color: #fff;
-      font-weight: 700;
+      padding: 12px 25px; font-size: 1.1em; border-radius: 8px; border: none;
+      cursor: pointer; background-color: #FF9900; color: #000; font-weight: 700;
       transition: all 0.3s ease;
     }
-
-    #whatsappPage button:hover {
-      background-color: #1ebe57;
-      transform: scale(1.05);
-    }
+    #whatsappPage button:hover { background-color: #ffb84d; transform: scale(1.05); }
   </style>
 </head>
 <body>
@@ -213,7 +130,7 @@
 
   <!-- WhatsApp page -->
   <div id="whatsappPage" class="fade">
-    <p>✅ Correct!</p>
+    <p>Congrats! Let’s chat 🟠</p>
     <button onclick="goToWhatsApp()">Contact me on WhatsApp</button>
   </div>
 
@@ -224,6 +141,7 @@
     const quiz = document.getElementById('quiz');
     const result = document.getElementById('result');
     const whatsappPage = document.getElementById('whatsappPage');
+    const answerInput = document.getElementById('answer');
 
     // Welcome 2 sec
     welcome.classList.add('show');
@@ -243,19 +161,22 @@
       setTimeout(() => {
         helloMsg.classList.remove('show');
         setTimeout(() => { quiz.classList.add('show'); }, 500);
-      }, 3000);
+      }, 2500);
     }
 
     // Check Answer
     function checkAnswer() {
-      const answer = document.getElementById('answer').value.trim().toLowerCase();
+      const answer = answerInput.value.trim().toLowerCase();
       if(answer === "secret") {
         quiz.classList.remove('show');
         whatsappPage.style.display = "flex";
         setTimeout(() => whatsappPage.classList.add('show'), 100);
       } else {
-        result.innerHTML = "❌ Wrong answer, try again!";
+        result.textContent = "❌ Wrong answer, try again!";
         result.classList.add('show');
+        // shake animation
+        answerInput.classList.add('shake');
+        setTimeout(() => answerInput.classList.remove('shake'), 300);
       }
     }
 
@@ -265,8 +186,6 @@
       const url = `https://wa.me/${phone}`;
       window.open(url, "_blank");
     }
-
   </script>
-
 </body>
 </html>
