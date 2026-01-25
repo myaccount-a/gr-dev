@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Devinèt Entèlijan</title>
+</head>
+<body style="text-align:center; font-family:Arial;">
+
+<h2>🧠 Devinèt</h2>
+
+<p>
+Mwen panse a yon chif.<br>
+Mwen double li, mwen ajoute 8.<br>
+Rezilta a vin 20.<br>
+<b>Ki chif la?</b>
+</p>
+
+<input id="rep" type="number" placeholder="Antre repons lan">
+<br><br>
+
+<button onclick="verify()">Verifye</button>
+
+<p id="result"></p>
+
+<script>
+function verify() {
+  let r = document.getElementById("rep").value;
+  if (r == 6) {
+    document.getElementById("result").innerHTML =
+      "🎉 Bravo! Rele m: <a href='tel:+15618086989'>561-808-6989</a>";
+  } else {
+    document.getElementById("result").innerHTML =
+      "❌ Pa bon. Reflechi ankò 😉";
+  }
+}
+</script>
+
+</body>
+</html>
