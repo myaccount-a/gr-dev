@@ -1,38 +1,119 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Devinèt Entèlijan</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Quiz</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #welcome, #quiz, #result {
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    #welcome.show, #quiz.show, #result.show {
+      opacity: 1;
+    }
+
+    #quiz p {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    #quiz input {
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      width: 250px;
+      background-color: #111;
+      color: #fff;
+      border: 1px solid #555;
+    }
+
+    #quiz button {
+      padding: 12px 25px;
+      font-size: 1em;
+      margin-left: 10px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      background-color: #fff;
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 0 10px #0ff;
+      transition: all 0.3s ease;
+    }
+
+    #quiz button:hover {
+      box-shadow: 0 0 20px #0ff;
+      transform: scale(1.05);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #0f0;
+    }
+  </style>
 </head>
-<body style="text-align:center; font-family:Arial;">
+<body>
 
-<h2>🧠 Devinèt</h2>
+  <!-- Mesaj welcome -->
+  <div id="welcome">Welcome!</div>
 
-<p>
-Mwen panse a yon chif.<br>
-Mwen double li, mwen ajoute 8.<br>
-Rezilta a vin 20.<br>
-<b>Ki chif la?</b>
-</p>
+  <!-- Kesyon ak repons -->
+  <div id="quiz">
+    <p>“You can hold me, but you can't see me.”<br>👉 What am I?</p>
+    <input type="text" id="answer" placeholder="Your answer here">
+    <button onclick="checkAnswer()">Submit</button>
+    <div id="result"></div>
+  </div>
 
-<input id="rep" type="number" placeholder="Antre repons lan">
-<br><br>
+  <script>
+    const welcome = document.getElementById('welcome');
+    const quiz = document.getElementById('quiz');
+    const result = document.getElementById('result');
 
-<button onclick="verify()">Verifye</button>
+    // Montre welcome ak fade-in
+    welcome.classList.add('show');
 
-<p id="result"></p>
+    setTimeout(() => {
+      // Fè welcome disparèt ak fade-out
+      welcome.classList.remove('show');
 
-<script>
-function verify() {
-  let r = document.getElementById("rep").value;
-  if (r == 6) {
-    document.getElementById("result").innerHTML =
-      "🎉 Bravo! Rele m: <a href='tel:+15618086989'>561-808-6989</a>";
-  } else {
-    document.getElementById("result").innerHTML =
-      "❌ Pa bon. Reflechi ankò 😉";
-  }
-}
-</script>
+      setTimeout(() => {
+        // Montre quiz ak fade-in
+        quiz.classList.add('show');
+      }, 500); // 500ms pou fade-out fini
+    }, 2000); // 2 segond welcome
+
+    // Verifye repons
+    function checkAnswer() {
+      const answer = document.getElementById('answer').value.trim().toLowerCase();
+      if(answer === "secret") {
+        result.innerHTML = "✅ Correct! My number is: 509-659-5789";
+        result.classList.add('show');
+      } else {
+        result.innerHTML = "❌ Wrong answer, try again!";
+        result.classList.add('show');
+      }
+    }
+  </script>
 
 </body>
 </html>
