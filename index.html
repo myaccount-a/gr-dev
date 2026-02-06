@@ -1,223 +1,92 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Private Access</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-:root{
-  --bg:#000;
-  --text:#fff;
-  --accent:#ff9000;
-}
-
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial, Helvetica, sans-serif;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.screen{
-  display:none;
-  text-align:center;
-  animation:fade .6s ease;
-}
-.active{display:block}
-
-h1 span{color:var(--accent)}
-
-input{
-  width:260px;
-  padding:12px;
-  font-size:16px;
-  text-align:center;
-  border:none;
-  border-radius:6px;
-}
-
-button{
-  margin-top:15px;
-  padding:12px 32px;
-  font-size:16px;
-  border:none;
-  border-radius:25px;
-  background:var(--accent);
-  color:#000;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:hover{transform:scale(1.05)}
-
-.progress{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-bottom:25px;
-}
-.step{
-  width:60px;
-  height:6px;
-  background:#333;
-  border-radius:5px;
-}
-.step.active{background:var(--accent)}
-
-.shake{animation:shake .4s}
-
-.whatsapp{
-  background:#25D366;
-  color:#fff;
-  animation:pulse 1.5s infinite;
-}
-
-.timer{
-  margin-bottom:15px;
-  font-size:14px;
-  color:#aaa;
-}
-
-@keyframes fade{from{opacity:0}to{opacity:1}}
-@keyframes shake{
-  0%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  50%{transform:translateX(6px)}
-  75%{transform:translateX(-6px)}
-  100%{transform:translateX(0)}
-}
-@keyframes pulse{
-  0%{box-shadow:0 0 0 0 rgba(37,211,102,.7)}
-  70%{box-shadow:0 0 0 18px rgba(37,211,102,0)}
-  100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}
-}
-</style>
-</head>
-
-<body>
-
-<!-- WELCOME -->
-<div id="welcome" class="screen active">
-  <h1><span>WELCOME</span></h1>
-</div>
-
-<!-- NAME -->
-<div id="name" class="screen">
-  <div class="timer" id="timer"></div>
-  <h2>What is your first name?</h2>
-  <input id="nameInput" placeholder="First name">
-  <br>
-  <button onclick="checkName()">Continue</button>
-</div>
-
-<!-- HELLO -->
-<div id="hello" class="screen">
-  <h1>Hello <span>Megan</span></h1>
-</div>
-
-<!-- MEET -->
-<div id="meet" class="screen">
-  <div class="timer" id="timer2"></div>
-  <h2>Where did we meet?</h2>
-  <input id="meetInput" placeholder="Your answer">
-  <br>
-  <button onclick="checkMeet()">Continue</button>
-</div>
-
-<!-- SMART -->
-<div id="smart" class="screen">
-  <h2>Let’s see if you’re really smart 😌</h2>
-</div>
-
-<!-- QUESTION -->
-<div id="question" class="screen">
-  <div class="timer" id="timer3"></div>
-  <p><strong>What you can keep, but you cannot see?</strong></p>
-  <input id="answerInput" placeholder="Your answer">
-  <br>
-  <button id="submitBtn" onclick="checkAnswer()">Submit</button>
-</div>
-
-<!-- WHATSAPP -->
-<div id="whatsappScreen" class="screen">
-  <p>if you don’t mind<br><strong>can you message on WhatsApp</strong></p>
-  <a href="https://wa.me/15618086978" target="_blank">
-    <button class="whatsapp">WhatsApp</button>
-  </a>
-</div>
-
-<!-- EXPIRED -->
-<div id="expired" class="screen">
-  <h1><span>Session Expired</span></h1>
-  <p>Time is up 😎<br>Refresh to try again.</p>
-</div>
-
 <script>
-let timeLeft = 120;
-let timerInterval;
-let finished = false;
-
-const show=id=>{
+/* ---------- SCREEN CONTROL ---------- */
+const show = id => {
   document.querySelectorAll('.screen')
-    .forEach(s=>s.classList.remove('active'));
+    .forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 };
 
+/* ---------- TIMER ---------- */
+let timeLeft = 120;
+let timer;
+let finished = false;
+
 function startTimer(){
-  timerInterval = setInterval(()=>{
+  timer = setInterval(()=>{
     timeLeft--;
-    document.querySelectorAll('.timer').forEach(t=>{
-      t.innerText = `Time left: ${timeLeft}s`;
-    });
-    if(timeLeft<=0 && !finished){
-      clearInterval(timerInterval);
+    if(timeLeft <= 0 && !finished){
+      clearInterval(timer);
       show('expired');
     }
   },1000);
 }
 
+/* ---------- START FLOW ---------- */
 setTimeout(()=>{
   show('name');
-  startTimer();
+  startTimer(); // ⏱️ timer starts AFTER welcome
 },2000);
 
-function deny(){
-  alert("sorry I don’t know you 😑");
+/* ---------- DENY ---------- */
+function deny(msg){
+  alert(msg);
 }
 
+/* ---------- NAME ---------- */
 function checkName(){
   if(nameInput.value.trim().toLowerCase()==="megan"){
     show('hello');
     setTimeout(()=>show('meet'),3000);
-  } else deny();
+  } else deny("nice try 😏 I don’t know you 😑");
 }
 
+/* ---------- MEET ---------- */
 function checkMeet(){
   if(meetInput.value.trim().toLowerCase()==="publix"){
     show('smart');
     setTimeout(()=>show('question'),2000);
-  } else deny();
+  } else deny("wait, who are you for real? 😎");
 }
 
+/* ---------- QUESTIONS ---------- */
+const questions = [
+  {q:"I can be kept, but never seen. If I’m shared, I disappear.", a:"secret"},
+  {q:"I have keys, but no locks. I have space, but no room.", a:"keyboard"},
+  {q:"I’m tall when I’m young, and short when I’m old.", a:"candle"},
+  {q:"I’m not alive, but I grow. I don’t have lungs, but I need air.", a:"fire"},
+  {q:"I go up and down, but never move.", a:"stairs"}
+];
+
+let index = 0;
+const steps = document.querySelectorAll('.step');
+
+function loadQuestion(){
+  document.querySelector('#question p').innerHTML =
+    `<strong>${questions[index].q}</strong>`;
+  answerInput.value = "";
+}
+
+/* ---------- ANSWER ---------- */
 function checkAnswer(){
-  const a=answerInput.value.trim().toLowerCase();
-  if(a==="secret"||a==="a secret"){
-    finished = true;
-    clearInterval(timerInterval);
-    show('whatsappScreen');
-  }else{
+  const val = answerInput.value.trim().toLowerCase();
+  if(val === questions[index].a){
+    steps[index].classList.add('active'); // 25% progress
+    index++;
+
+    if(index === questions.length){
+      finished = true;
+      clearInterval(timer);
+      show('whatsappScreen');
+    } else {
+      loadQuestion();
+    }
+  } else {
     submitBtn.classList.add('shake');
     answerInput.value="";
     setTimeout(()=>submitBtn.classList.remove('shake'),400);
   }
 }
-</script>
 
-</body>
-</html>
+/* ---------- INIT FIRST QUESTION ---------- */
+loadQuestion();
+</script>
