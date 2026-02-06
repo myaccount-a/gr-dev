@@ -21,6 +21,7 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  position:relative;
 }
 
 .screen{
@@ -83,6 +84,23 @@ button:hover{transform:scale(1.05)}
   color:#aaa;
 }
 
+/* Circular Timer */
+.circular-timer {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: conic-gradient(var(--accent) 0deg, #333 0deg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: bold;
+}
+
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes shake{
   0%{transform:translateX(0)}
@@ -108,7 +126,7 @@ button:hover{transform:scale(1.05)}
 
 <!-- NAME -->
 <div id="name" class="screen">
-  <div class="timer" id="timer"></div>
+  <div class="circular-timer" id="circularTimer">120</div>
   <h2>What is your first name?</h2>
   <input id="nameInput" placeholder="First name">
   <br>
@@ -122,7 +140,7 @@ button:hover{transform:scale(1.05)}
 
 <!-- MEET -->
 <div id="meet" class="screen">
-  <div class="timer" id="timer2"></div>
+  <div class="circular-timer" id="circularTimer">120</div>
   <h2>Where did we meet?</h2>
   <input id="meetInput" placeholder="Your answer">
   <br>
@@ -136,7 +154,7 @@ button:hover{transform:scale(1.05)}
 
 <!-- QUESTION -->
 <div id="question" class="screen">
-  <div class="timer" id="timer3"></div>
+  <div class="circular-timer" id="circularTimer">120</div>
   <div class="progress" id="progressBar">
     <div class="step"></div>
     <div class="step"></div>
@@ -177,18 +195,33 @@ const show = id => {
 let timeLeft = 120;
 let timer;
 let finished = false;
+const circular = document.querySelectorAll('.circular-timer');
 
 function startTimer(){
   timer = setInterval(()=>{
     timeLeft--;
-    document.querySelectorAll('.timer').forEach(t=>{
-      t.innerText = `Time left: ${timeLeft}s`;
-    });
+    if(circular){
+      circular.forEach(c=>{
+        let deg = ((120 - timeLeft)/120)*360;
+        c.style.background = `conic-gradient(var(--accent) ${deg}deg, #333 ${deg}deg)`;
+        c.innerText = timeLeft;
+      });
+    }
     if(timeLeft <= 0 && !finished){
       clearInterval(timer);
       show('expired');
     }
   },1000);
+}
+
+/* ---------- SOUND ---------- */
+function playSound(){
+  const ctx = new AudioContext();
+  const osc = ctx.createOscillator();
+  osc.frequency.value = 600;
+  osc.connect(ctx.destination);
+  osc.start();
+  setTimeout(()=>osc.stop(),120);
 }
 
 /* ---------- FLOW ---------- */
@@ -197,9 +230,7 @@ setTimeout(()=>{
   startTimer();
 },2000);
 
-function deny(msg){
-  alert(msg);
-}
+function deny(msg){ alert(msg); }
 
 /* ---------- NAME ---------- */
 function checkName(){
@@ -240,8 +271,8 @@ function checkAnswer(){
   const val = answerInput.value.trim().toLowerCase();
   if(val === questions[index].a){
     if(steps[index]) steps[index].classList.add('active');
+    playSound();
     index++;
-
     if(index === questions.length){
       finished = true;
       clearInterval(timer);
