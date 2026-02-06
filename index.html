@@ -84,21 +84,26 @@ button:hover{transform:scale(1.05)}
   color:#aaa;
 }
 
-/* Circular Timer */
+/* Circular Timer Center */
 .circular-timer {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
   background: conic-gradient(var(--accent) 0deg, #333 0deg);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: bold;
+}
+
+/* Felicitations */
+#congratsMsg {
+  color: var(--accent);
+  font-size: 32px;
+  animation: pulseCongrats 1s infinite alternate;
 }
 
 @keyframes fade{from{opacity:0}to{opacity:1}}
@@ -113,6 +118,11 @@ button:hover{transform:scale(1.05)}
   0%{box-shadow:0 0 0 0 rgba(37,211,102,.7)}
   70%{box-shadow:0 0 0 18px rgba(37,211,102,0)}
   100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}
+}
+@keyframes pulseCongrats {
+  0% { transform: scale(1); text-shadow: 0 0 5px var(--accent);}
+  50% { transform: scale(1.2); text-shadow: 0 0 20px var(--accent);}
+  100% { transform: scale(1); text-shadow: 0 0 5px var(--accent);}
 }
 </style>
 </head>
@@ -168,9 +178,10 @@ button:hover{transform:scale(1.05)}
   <button id="submitBtn" onclick="checkAnswer()">Submit</button>
 </div>
 
-<!-- WHATSAPP -->
-<div id="whatsappScreen" class="screen">
-  <p>if you don’t mind<br><strong>can you message on WhatsApp</strong></p>
+<!-- FELICITATIONS -->
+<div id="congratsScreen" class="screen">
+  <h1 id="congratsMsg">🎉 Congratulations! 🎉</h1>
+  <p>You completed the quiz!</p>
   <a href="https://wa.me/15618086978" target="_blank">
     <button class="whatsapp">WhatsApp</button>
   </a>
@@ -276,7 +287,7 @@ function checkAnswer(){
     if(index === questions.length){
       finished = true;
       clearInterval(timer);
-      show('whatsappScreen');
+      show('congratsScreen'); // Felisitasyon screen
     } else {
       loadQuestion();
     }
